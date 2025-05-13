@@ -8,8 +8,6 @@ namespace PlayerInputSystem
     {
         private PlayerControls _playerControls;
 
-
-
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
@@ -19,16 +17,6 @@ namespace PlayerInputSystem
 
             EnableActionMap(StringManager.PLAYER);
             PlayerInputs();
-        }
-
-        void OnEnable()
-        {
-            
-        }
-
-        void OnDisable()
-        {
-            
         }
 
         public void EnableActionMap(string name)
