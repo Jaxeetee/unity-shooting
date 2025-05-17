@@ -10,12 +10,7 @@ public class Look : MonoBehaviour
 
     [SerializeField] GameObject _mouseGameObject; 
 
-    [SerializeField] float _rotationSpeed = 15f;
-
     [SerializeField] LayerMask _layerMask;
-
-    [SerializeField] float _maxDistance = 5f;
-
     void Start()
     {
         _mainCam = Camera.main;
@@ -43,6 +38,7 @@ public class Look : MonoBehaviour
         if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, _layerMask))
         {
             _mouseGameObject.transform.position = hitInfo.point;
+            
             return hitInfo.point;
         }
         else
