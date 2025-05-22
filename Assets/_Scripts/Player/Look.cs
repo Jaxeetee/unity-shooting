@@ -37,8 +37,8 @@ public class Look : MonoBehaviour
         Ray ray = _mainCam.ScreenPointToRay(_mousePos);
         if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, _layerMask))
         {
+            //Making Gameobject reference points for the mouse pos in the world point for influencing camera's center point
             _mouseGameObject.transform.position = hitInfo.point;
-            
             return hitInfo.point;
         }
         else

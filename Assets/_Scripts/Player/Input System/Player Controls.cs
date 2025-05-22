@@ -104,9 +104,9 @@ namespace PlayerInputSystem
                 },
                 {
                     ""name"": ""Shoot"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""235e2017-7ee0-42c4-86f7-fe1732145292"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -207,7 +207,7 @@ namespace PlayerInputSystem
                 {
                     ""name"": """",
                     ""id"": ""0c91d34e-8db6-43d5-a916-12f23c413adc"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

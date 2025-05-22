@@ -14,10 +14,10 @@ public class PlayerInputTest : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        Debug.Log($"X: {_test.x} | Y: {_test.y}");
-    }
+    // void Update()
+    // {
+    //     Debug.Log($"X: {_test.x} | Y: {_test.y}");
+    // }
 
     void OnEnable()
     {

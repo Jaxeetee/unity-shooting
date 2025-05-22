@@ -97,6 +97,7 @@ namespace PlayerInputSystem
             inputMap.FindAction(StringManager.SHOOT).performed += ctx =>
             {
                 float value = ctx.ReadValue<float>();
+                Debug.Log($"float value{value}");
                 onShoot?.Invoke(value);
             };
 
