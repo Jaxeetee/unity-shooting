@@ -888,7 +888,7 @@ Transform:
   m_GameObject: {fileID: 648263404}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: -0.756}
+  m_LocalPosition: {x: 0, y: 0.052, z: -0.386}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2379,7 +2379,7 @@ MonoBehaviour:
   _defaultSize: 5
   _magazineSize: 15
   _bulletVelocity: 50
-  _bullet: {fileID: 7577330213059618639, guid: 49452aa8206467142b5960b80e216256, type: 3}
+  _bullet: {fileID: 2926116589903750752, guid: 499d512d5f93629449aa0345a12ae957, type: 3}
   _bulletPosition: {fileID: 648263405}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

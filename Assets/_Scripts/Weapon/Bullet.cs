@@ -4,6 +4,7 @@ using UnityEngine.Pool;
 
 public class Bullet : MonoBehaviour
 {
+    TrailRenderer _bulletTrail;
     [SerializeField] float _speed = 50f;
 
     [Tooltip("number of seconds on how long the bullet will stay active before it disappears")]
@@ -16,9 +17,19 @@ public class Bullet : MonoBehaviour
         set => _objectPool = value;
     }
 
+    void Awake()
+    {
+        _bulletTrail = GetComponent<TrailRenderer>();
+    }
+    
     void OnEnable()
     {
         StartCoroutine(LifeTimeDecay(_lifeTime));
+    }
+
+    void OnDisable()
+    {
+        _bulletTrail.Clear();
     }
 
     public void SetSpeed(float speed)
