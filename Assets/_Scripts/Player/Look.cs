@@ -18,12 +18,12 @@ public class Look : MonoBehaviour
 
     void OnEnable()
     {
-        MyInputManager.onLook += GetMousePosition;
+        PlayerInputManager.onLook += GetMousePosition;
     }
 
     void OnDisable()
     {
-        MyInputManager.onLook -= GetMousePosition;
+        PlayerInputManager.onLook -= GetMousePosition;
     }
 
     void Update()

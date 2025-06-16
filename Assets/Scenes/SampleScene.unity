@@ -2375,9 +2375,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcdebd7d18b53944fa14540eb9c73df0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rateOfFire: 5
-  _defaultSize: 5
+  _fireRate: 2
   _magazineSize: 15
+  _fireMode: 0
+  _burstAmount: 3
   _bulletVelocity: 50
   _bullet: {fileID: 2926116589903750752, guid: 499d512d5f93629449aa0345a12ae957, type: 3}
   _bulletPosition: {fileID: 648263405}

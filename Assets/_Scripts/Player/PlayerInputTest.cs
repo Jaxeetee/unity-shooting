@@ -21,12 +21,12 @@ public class PlayerInputTest : MonoBehaviour
 
     void OnEnable()
     {
-        MyInputManager.onMove += GetMovement;
+        PlayerInputManager.onMove += GetMovement;
     }
 
     void OnDisable()
     {
-        MyInputManager.onMove -= GetMovement;
+        PlayerInputManager.onMove -= GetMovement;
     }
 
     private void GetMovement(Vector2 axis)

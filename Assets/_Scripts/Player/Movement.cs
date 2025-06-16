@@ -17,12 +17,12 @@ public class Movement : MonoBehaviour
 
     void OnEnable()
     {
-        MyInputManager.onMove += GetMovementInput;
+        PlayerInputManager.onMove += GetMovementInput;
     }
 
     void OnDisable()
     {
-        MyInputManager.onMove -= GetMovementInput;
+        PlayerInputManager.onMove -= GetMovementInput;
     }
 
     // Update is called once per frame
