@@ -8,7 +8,6 @@ namespace PlayerInputSystem
     {
         private PlayerControls _playerControls;
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
             _playerControls = new PlayerControls();
@@ -35,6 +34,8 @@ namespace PlayerInputSystem
         public static Action<float> onReload; 
         public static Action<float> onShoot; 
         public static Action<float> onPause;
+        public static Action<float> onEquip;
+        public static Action<float> onSwitch;
 
         void PlayerInputs()
         {
@@ -97,7 +98,6 @@ namespace PlayerInputSystem
             inputMap.FindAction(StringManager.SHOOT).performed += ctx =>
             {
                 float value = ctx.ReadValue<float>();
-                Debug.Log($"float value{value}");
                 onShoot?.Invoke(value);
             };
 
@@ -119,14 +119,30 @@ namespace PlayerInputSystem
                 onPause?.Invoke(value);
             };
 
+            inputMap.FindAction(StringManager.EQUIP).performed += ctx =>
+            {
+                float value = ctx.ReadValue<float>();
+                onEquip?.Invoke(value);
+            };
 
+            inputMap.FindAction(StringManager.EQUIP).canceled += ctx =>
+            {
+                float value = ctx.ReadValue<float>();
+                onEquip?.Invoke(value);
+            };
 
+            inputMap.FindAction(StringManager.SWITCH).performed += ctx =>
+            {
+                float value = ctx.ReadValue<float>();
+                onSwitch?.Invoke(value);
+            };
 
-
-
+            inputMap.FindAction(StringManager.SWITCH).canceled += ctx =>
+            {
+                float value = ctx.ReadValue<float>();
+                onSwitch?.Invoke(value);
+            };
             
         }
-
-        
     }
 }

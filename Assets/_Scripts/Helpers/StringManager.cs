@@ -11,5 +11,7 @@ public static class StringManager
     public const string INTERACT = "Interact";
     public const string LOOK = "Look";
     public const string RELOAD = "Reload";
+    public const string EQUIP = "Equip";
+    public const string SWITCH = "Switch";
     #endregion
 }

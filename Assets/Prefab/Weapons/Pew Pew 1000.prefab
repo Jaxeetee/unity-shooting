@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 7238451310726852239}
   - component: {fileID: 5466684379562478384}
   - component: {fileID: 8927837879524222234}
-  - component: {fileID: 5379662497924825828}
   - component: {fileID: 4830314180279496169}
   m_Layer: 0
   m_Name: Pew Pew 1000
@@ -59,8 +58,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7057740254575879668}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -7.6, y: 1.61, z: -5.2599998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -119,28 +118,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7057740254575879668}
-  m_Mesh: {fileID: 4300000, guid: a82e49b7806b75343a6e84db2d4049a7, type: 2}
---- !u!64 &5379662497924825828
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7057740254575879668}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: a82e49b7806b75343a6e84db2d4049a7, type: 2}
 --- !u!114 &4830314180279496169
 MonoBehaviour:

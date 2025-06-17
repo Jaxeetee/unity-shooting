@@ -95,12 +95,12 @@ namespace PlayerInputSystem
             ""actions"": [
                 {
                     ""name"": ""Move"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""98b5ac46-70c6-4b88-9696-9eef57652de3"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Shoot"",
@@ -142,6 +142,24 @@ namespace PlayerInputSystem
                     ""name"": ""Reload"",
                     ""type"": ""Button"",
                     ""id"": ""e4980337-688c-4c83-b0fb-4f2bbce9fed3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Switch"",
+                    ""type"": ""Button"",
+                    ""id"": ""51a248d9-1ffd-4972-8559-49aab610c025"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Equip"",
+                    ""type"": ""Button"",
+                    ""id"": ""d033097d-e0d6-41a0-a006-dce46aaec929"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -258,6 +276,28 @@ namespace PlayerInputSystem
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1dbbab1f-faed-4d74-915b-3343a686b5f8"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b6364d41-2400-4206-bdf5-260546d9998b"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -340,6 +380,8 @@ namespace PlayerInputSystem
             m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
+            m_Player_Switch = m_Player.FindAction("Switch", throwIfNotFound: true);
+            m_Player_Equip = m_Player.FindAction("Equip", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_NextTab = m_UI.FindAction("NextTab", throwIfNotFound: true);
@@ -432,6 +474,8 @@ namespace PlayerInputSystem
         private readonly InputAction m_Player_Interact;
         private readonly InputAction m_Player_Look;
         private readonly InputAction m_Player_Reload;
+        private readonly InputAction m_Player_Switch;
+        private readonly InputAction m_Player_Equip;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -467,6 +511,14 @@ namespace PlayerInputSystem
             /// Provides access to the underlying input action "Player/Reload".
             /// </summary>
             public InputAction @Reload => m_Wrapper.m_Player_Reload;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/Switch".
+            /// </summary>
+            public InputAction @Switch => m_Wrapper.m_Player_Switch;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/Equip".
+            /// </summary>
+            public InputAction @Equip => m_Wrapper.m_Player_Equip;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -511,6 +563,12 @@ namespace PlayerInputSystem
                 @Reload.started += instance.OnReload;
                 @Reload.performed += instance.OnReload;
                 @Reload.canceled += instance.OnReload;
+                @Switch.started += instance.OnSwitch;
+                @Switch.performed += instance.OnSwitch;
+                @Switch.canceled += instance.OnSwitch;
+                @Equip.started += instance.OnEquip;
+                @Equip.performed += instance.OnEquip;
+                @Equip.canceled += instance.OnEquip;
             }
 
             /// <summary>
@@ -540,6 +598,12 @@ namespace PlayerInputSystem
                 @Reload.started -= instance.OnReload;
                 @Reload.performed -= instance.OnReload;
                 @Reload.canceled -= instance.OnReload;
+                @Switch.started -= instance.OnSwitch;
+                @Switch.performed -= instance.OnSwitch;
+                @Switch.canceled -= instance.OnSwitch;
+                @Equip.started -= instance.OnEquip;
+                @Equip.performed -= instance.OnEquip;
+                @Equip.canceled -= instance.OnEquip;
             }
 
             /// <summary>
@@ -740,6 +804,20 @@ namespace PlayerInputSystem
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnReload(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Switch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnSwitch(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Equip" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnEquip(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
