@@ -30,12 +30,21 @@ public class Gun : MonoBehaviour
     float _nextTimeToShoot;
     bool _isShooting;
     int _currentAmount = 0; //Amount of bullets left in a magazine 
-
     bool _isReloading;
 
     void Awake()
     {
         _objectPool = new ObjectPool<Bullet>(CreateProjectile, OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject);
+    }
+
+    void OnEnable()
+    {
+        
+    }
+
+    void OnDisable()
+    {
+        
     }
 
     Bullet CreateProjectile()
@@ -45,6 +54,7 @@ public class Gun : MonoBehaviour
         return bulletInstance;
     }
 
+#region ==== OBJECT POOLING ====
     void OnGetFromPool(Bullet pooledObject)
     {
         pooledObject.gameObject.SetActive(true);
@@ -59,8 +69,9 @@ public class Gun : MonoBehaviour
     {
         Destroy(pooledObject.gameObject);
     }
+#endregion
 
-    public void ShootProjectile()
+    public void Shoot()
     {
         Bullet bulletObject = _objectPool.Get();
         bulletObject.SetSpeed(_bulletVelocity);
