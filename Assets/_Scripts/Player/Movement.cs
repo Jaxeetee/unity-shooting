@@ -38,7 +38,6 @@ public class Movement : MonoBehaviour
 
     void GetMovementInput(Vector2 axis)
     {
-        Debug.Log(axis);
         _movePos = new Vector3(axis.x, 0, axis.y);
     }
 }

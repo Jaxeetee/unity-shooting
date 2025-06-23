@@ -6,9 +6,6 @@ public class GunController : MonoBehaviour
     [SerializeField] Transform _hand;
     [SerializeField] GameObject _primaryWeapon;
     [SerializeField] GameObject _secondaryWeapon;
-    [SerializeField] Gun[] _currentWeapons;
-
-    int _currentCycle = 0;
     bool _isPrimaryActive;
 
     void Start()
@@ -63,6 +60,17 @@ public class GunController : MonoBehaviour
 
     void ShootInput(float value)
     {
+        //! I need to make it so that it will work flawlessly on different equipped weapons
+        if (value == 1)
+        {
+            Gun gun = _primaryWeapon.GetComponent<Gun>();
+            gun.OnTriggerHold();
+        }
+        else
+        {
+            Gun gun = _primaryWeapon.GetComponent<Gun>();
+            gun.OnTriggerReleased();
+        }
 
     }
 

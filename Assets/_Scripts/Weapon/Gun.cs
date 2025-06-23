@@ -19,6 +19,7 @@ public class Gun : MonoBehaviour
     [SerializeField] int _magazineSize = 30;
     [SerializeField] FireMode _fireMode = FireMode.Full;
     [SerializeField] int _burstAmount = 3;
+    int _burstRemaining = 0;
 
     [Header("Bullet Attributes")]
     [SerializeField] float _bulletVelocity;
@@ -28,25 +29,35 @@ public class Gun : MonoBehaviour
     IObjectPool<Bullet> _objectPool;
 
     float _nextTimeToShoot;
-    bool _isShooting;
     int _currentAmount = 0; //Amount of bullets left in a magazine 
-    bool _isReloading;
+    bool _isReloading = false;
+    bool _isShooting;
+    bool _isBursting;
 
     void Awake()
     {
         _objectPool = new ObjectPool<Bullet>(CreateProjectile, OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject);
     }
 
+    void Start()
+    {
+        _currentAmount = _magazineSize;
+
+        if (_fireMode == FireMode.Burst)
+            _burstRemaining = _burstAmount;
+    }
+
     void OnEnable()
     {
-        
+
     }
 
     void OnDisable()
     {
-        
+
     }
 
+    #region ==== OBJECT POOLING ====
     Bullet CreateProjectile()
     {
         Bullet bulletInstance = Instantiate(_bullet);
@@ -54,7 +65,6 @@ public class Gun : MonoBehaviour
         return bulletInstance;
     }
 
-#region ==== OBJECT POOLING ====
     void OnGetFromPool(Bullet pooledObject)
     {
         pooledObject.gameObject.SetActive(true);
@@ -69,9 +79,66 @@ public class Gun : MonoBehaviour
     {
         Destroy(pooledObject.gameObject);
     }
-#endregion
+    #endregion
 
-    public void Shoot()
+    void Shoot()
+    {
+        if (_isReloading && _currentAmount == 0) return;
+
+        Debug.Log("isFiring");
+        if (_fireMode == FireMode.Burst)
+        {
+            if (!_isShooting) return;
+            StartCoroutine(BurstShoot());
+        }
+        else if (_fireMode == FireMode.Full)
+        {
+            if (!_isShooting) return;
+            StartCoroutine(FullAutoShoot());
+        }
+        if (Time.time > _nextTimeToShoot)
+        {
+            SpawnProjectiles();
+            _nextTimeToShoot = Time.time + _fireRate / 1000;
+            _currentAmount--;
+        }
+
+        
+    }
+
+    IEnumerator FullAutoShoot()
+    {
+        while (_isShooting)
+        {
+            if (Time.time > _nextTimeToShoot)
+            {
+                Debug.Log("~~~~~~~~~Auto shooting~~~~~~!");
+                SpawnProjectiles();
+                _nextTimeToShoot = Time.time + _fireRate / 1000;
+                _currentAmount--;
+            }
+            yield return null;
+        }
+    }
+
+    IEnumerator BurstShoot()
+    {
+        while (!_isBursting && _burstRemaining > 0)
+        {
+            if (Time.time > _nextTimeToShoot)
+            {
+                Debug.Log("--------Burst shooting-------!");
+                SpawnProjectiles();
+                _nextTimeToShoot = Time.time + _fireRate / 1000;
+                _burstRemaining--;
+                _currentAmount--;
+            }
+            yield return null;
+        }
+        _isBursting = true;
+    }
+
+    void SpawnProjectiles()
     {
         Bullet bulletObject = _objectPool.Get();
         bulletObject.SetSpeed(_bulletVelocity);
@@ -82,6 +149,18 @@ public class Gun : MonoBehaviour
     public void Reload()
     {
 
+    }
+
+    public void OnTriggerHold()
+    {
+        _isShooting = true;
+        Shoot();
+    }
+
+    public void OnTriggerReleased()
+    {
+        _isShooting = false;
+        _burstRemaining = _burstAmount;
     }
 
 }
