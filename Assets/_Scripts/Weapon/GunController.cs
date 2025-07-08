@@ -76,7 +76,8 @@ public class GunController : MonoBehaviour
 
     void ReloadInput(float value)
     {
-
+        Gun gun = _primaryWeapon.GetComponent<Gun>();
+        gun.Reload();
     }
 
     void SwitchInput(float value)

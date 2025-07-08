@@ -19,6 +19,9 @@ public class Gun : MonoBehaviour
     [SerializeField] int _magazineSize = 30;
     [SerializeField] FireMode _fireMode = FireMode.Full;
     [SerializeField] int _burstAmount = 3;
+    [SerializeField] float _reloadTime = 1.5f; 
+    [SerializeField] float _damagePoints = 4f;
+    float _currentReloadTime = 0f;
     int _burstRemaining = 0;
 
     [Header("Bullet Attributes")]
@@ -29,7 +32,7 @@ public class Gun : MonoBehaviour
     IObjectPool<Bullet> _objectPool;
 
     float _nextTimeToShoot;
-    int _currentAmount = 0; //Amount of bullets left in a magazine 
+    [SerializeField] int _currentAmount = 0; //Amount of bullets left in a magazine 
     bool _isReloading = false;
     bool _isShooting;
     bool _isBursting;
@@ -83,7 +86,7 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
-        if (_isReloading && _currentAmount == 0) return;
+        if (_isReloading || _currentAmount == 0) return;
 
         Debug.Log("isFiring");
         if (_fireMode == FireMode.Burst)
@@ -123,6 +126,7 @@ public class Gun : MonoBehaviour
 
     IEnumerator BurstShoot()
     {
+        Debug.Log($"Burst Remain: {_burstRemaining}");
         while (!_isBursting && _burstRemaining > 0)
         {
             if (Time.time > _nextTimeToShoot)
@@ -135,7 +139,22 @@ public class Gun : MonoBehaviour
             }
             yield return null;
         }
+        _burstRemaining = _burstAmount;
         _isBursting = true;
+    }
+
+    IEnumerator Reloading()
+    {
+        
+        while (_currentReloadTime < _reloadTime)
+        {
+            _currentReloadTime += Time.deltaTime;
+            yield return null;
+        }
+
+        _currentReloadTime = 0f;
+        _currentAmount = _magazineSize;
+        _isReloading = false;
     }
 
     void SpawnProjectiles()
@@ -146,21 +165,30 @@ public class Gun : MonoBehaviour
         bulletObject.gameObject.transform.rotation = _bulletPosition.rotation;
     }
 
+
+    #region -== TO CALL FROM GUN CONTROLLER.CS ==-
     public void Reload()
     {
+        if (_isReloading) return; 
 
+
+        _isReloading = true;
+        StartCoroutine(Reloading());
     }
 
     public void OnTriggerHold()
     {
         _isShooting = true;
+        _isBursting = false;
         Shoot();
     }
 
     public void OnTriggerReleased()
     {
         _isShooting = false;
-        _burstRemaining = _burstAmount;
+        
     }
+
+    #endregion
 
 }
