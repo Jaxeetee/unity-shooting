@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Pool;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
@@ -20,10 +21,19 @@ public class Enemy : MonoBehaviour, IDamageable
     public void TakeDamage(int damageAmount)
     {
         currentHealth -= damageAmount;
+        Debug.Log($"Enemy took {damageAmount} damage, current health: {currentHealth}");
         if (currentHealth <= 0)
         {
-            //Return to pool or do something before enemy dies
+            _objectPool?.Release(this);
+            this.gameObject.SetActive(false);
         }
+    }
+
+    IObjectPool<Enemy> _objectPool;
+
+    public IObjectPool<Enemy> objectPool
+    {
+        set => _objectPool = value;
     }
 
     void Awake()
@@ -44,7 +54,7 @@ public class Enemy : MonoBehaviour, IDamageable
             Debug.LogError("Target Destination is not set for the enemy.");
         }
         currentHealth = _maxHealth;
-        
+
     }
     void Update()
     {
@@ -52,7 +62,16 @@ public class Enemy : MonoBehaviour, IDamageable
         {
             _destination = _targetDestination.position;
             _agent.destination = _destination;
-        }   
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+        if (bullet != null)
+        {
+            TakeDamage(bullet.damagePoints);
+        }
     }
 
 

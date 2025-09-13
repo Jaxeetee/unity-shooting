@@ -20,7 +20,7 @@ public class Gun : MonoBehaviour
     [SerializeField] FireMode _fireMode = FireMode.Full;
     [SerializeField] int _burstAmount = 3;
     [SerializeField] float _reloadTime = 1.5f; 
-    [SerializeField] float _damagePoints = 4f;
+    [SerializeField] int _damagePoints = 4;
     float _currentReloadTime = 0f;
     int _burstRemaining = 0;
 
@@ -160,7 +160,7 @@ public class Gun : MonoBehaviour
     void SpawnProjectiles()
     {
         Bullet bulletObject = _objectPool.Get();
-        bulletObject.SetSpeed(_bulletVelocity);
+        bulletObject.SetBulletStats(_bulletVelocity, _damagePoints);
         bulletObject.gameObject.transform.position = _bulletPosition.position;
         bulletObject.gameObject.transform.rotation = _bulletPosition.rotation;
     }

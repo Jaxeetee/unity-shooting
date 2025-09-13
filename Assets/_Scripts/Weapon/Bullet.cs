@@ -17,11 +17,18 @@ public class Bullet : MonoBehaviour
         set => _objectPool = value;
     }
 
+    int _damagePoints = 0;
+    public int damagePoints
+    {
+        get => _damagePoints;
+        set => _damagePoints = value;
+    }
+
     void Awake()
     {
         _bulletTrail = GetComponent<TrailRenderer>();
     }
-    
+
     void OnEnable()
     {
         StartCoroutine(LifeTimeDecay(_lifeTime));
@@ -32,9 +39,10 @@ public class Bullet : MonoBehaviour
         _bulletTrail.Clear();
     }
 
-    public void SetSpeed(float speed)
+    public void SetBulletStats(float speed, int damage = 0)
     {
         _speed = speed;
+        damagePoints = damage;
     }
 
     // Update is called once per frame
@@ -59,4 +67,6 @@ public class Bullet : MonoBehaviour
 
         _objectPool.Release(this);
     }
+    
+    
 }
