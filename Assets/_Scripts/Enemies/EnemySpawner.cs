@@ -6,6 +6,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] int _amountToSpawn = 5;
     [SerializeField] Enemy _enemy;
 
+    int _currentlySpawned = 0;
     IObjectPool<Enemy> _objectPool;
 
     //TODO: Spawn enemy at a given radius around the spawner
@@ -13,8 +14,12 @@ public class EnemySpawner : MonoBehaviour
 
     void Awake() => _objectPool = new ObjectPool<Enemy>(CreateEnemy, OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject);
 
+    void Start()
+    {
+        SpawnEnemies();
+    } 
 
-#region OBJECT POOLING METHODS
+    #region OBJECT POOLING METHODS
     private void OnDestroyPooledObject(Enemy pooledEnemy)
     {
         Destroy(pooledEnemy.gameObject);
@@ -42,15 +47,23 @@ public class EnemySpawner : MonoBehaviour
     {
         float radius = 5f; // Example radius, adjust as needed
         Vector2 randomPoint = Random.insideUnitCircle * radius;
-        return new Vector3(randomPoint.x, 0, randomPoint.y) + transform.position;
+        return new Vector3(randomPoint.x, 3f, randomPoint.y) + transform.position;
     }
     
     public void SpawnEnemies()
     {
+        // if (_currentlySpawned == 0)
+        //     for (int i = 0; i < _amountToSpawn; i++)
+        //     {
+        //         CreateEnemy();
+        //         _currentlySpawned++;
+        //     }
         for (int i = 0; i < _amountToSpawn; i++)
         {
             Vector3 spawnPosition = GetRandomSpawnPosition();
-            Instantiate(_enemy, spawnPosition, Quaternion.identity);
+            Enemy enemy = _objectPool.Get();
+            enemy.transform.position = spawnPosition;
+            enemy.transform.rotation = Quaternion.identity;
         }
     }
 }

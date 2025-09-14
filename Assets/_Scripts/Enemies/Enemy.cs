@@ -51,7 +51,14 @@ public class Enemy : MonoBehaviour, IDamageable
         }
         else
         {
-            Debug.LogError("Target Destination is not set for the enemy.");
+            //* Just in case the target destination is not set, find the player in the scene
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                _destination = player.transform.position;
+                _agent.destination = _destination;
+            }
+
         }
         currentHealth = _maxHealth;
 
