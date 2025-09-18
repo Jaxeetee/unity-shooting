@@ -75,7 +75,13 @@ public class Gun : MonoBehaviour
 
     void OnReleaseToPool(Bullet pooledObject)
     {
+        TrailRenderer trail = pooledObject.GetComponent<TrailRenderer>();
+        if (trail != null)
+        {
+            trail.Clear();
+        }
         pooledObject.gameObject.SetActive(false);
+
     }
 
     void OnDestroyPooledObject(Bullet pooledObject)

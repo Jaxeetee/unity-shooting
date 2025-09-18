@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
 
     [Tooltip("number of seconds on how long the bullet will stay active before it disappears")]
     [SerializeField] float _lifeTime = 5f;
+    bool _didHit = false;
 
     IObjectPool<Bullet> _objectPool;
 
@@ -30,13 +31,19 @@ public class Bullet : MonoBehaviour
     }
 
     void OnEnable()
-    {
-        StartCoroutine(LifeTimeDecay(_lifeTime));
+    { 
+        _didHit = false;
+        
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(LifeTimeDecay(_lifeTime));
+        }
     }
 
     void OnDisable()
     {
-        _bulletTrail.Clear();
+        // _bulletTrail.Clear();
+        // StopAllCoroutines();
     }
 
     public void SetBulletStats(float speed, int damage = 0)
@@ -51,6 +58,23 @@ public class Bullet : MonoBehaviour
         transform.Translate(transform.forward * _speed * Time.deltaTime, Space.World);
 
         //TODO create a detection to disable the bullet
+        Ray ray = new Ray(transform.position, transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                //Debug.Log("Bullet hit: " + hit.collider.name);
+                _didHit = true;
+
+                IDamageable damageable = hit.collider.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.TakeDamage(damagePoints);
+                }
+
+                // this.gameObject.transform.position = Vector3.zero;
+                // this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+                _objectPool.Release(this);
+            }
     }
 
     IEnumerator LifeTimeDecay(float duration)
@@ -66,6 +90,33 @@ public class Bullet : MonoBehaviour
         this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
 
         _objectPool.Release(this);
+    }
+
+    IEnumerator CollisionDetection()
+    {
+        while (!_didHit)
+        {
+            Ray ray = new Ray(transform.position, transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                //Debug.Log("Bullet hit: " + hit.collider.name);
+                _didHit = true;
+
+                IDamageable damageable = hit.collider.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.TakeDamage(damagePoints);
+                }
+
+                // this.gameObject.transform.position = Vector3.zero;
+                // this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+                _objectPool.Release(this);
+            }
+
+            yield return null;
+        }
+        
     }
     
     
